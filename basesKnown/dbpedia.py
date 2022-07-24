@@ -1,0 +1,1 @@
+dbpedia_sparq = "http://dbpedia.org/sparql"

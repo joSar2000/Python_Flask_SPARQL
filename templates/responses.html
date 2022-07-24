@@ -1,0 +1,41 @@
+{% extends "index.html" %}
+
+{% block content %}
+<form action="/detailsSearch" method="post">
+    <div style="height: 600px;overflow: scroll;" class="table table-bordered table-hover table-responsive">
+        <table class="table table-fixed">
+            <thead">
+                <tr>
+                    <th style="text-align: center; font-size: 200%;font-family: 'Jost'">ID</th>
+                    <th style="text-align: center; font-size: 200%;font-family: 'Jost'">Dirección</th>
+                    <th style="text-align: center; font-size: 200%;font-family: 'Jost'">Detalles</th>
+                    <th style="text-align: center; font-size: 200%;font-family: 'Jost'">Idioma</th>
+                    <th style="text-align: center; font-size: 200%;font-family: 'Jost'">Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% set count = namespace(value = 0) %}
+                    {% for results in resultsQuery['results']['bindings'] %}
+                    <tr>
+                        {% set count.value = count.value + 1 %}
+                        <td style="text-align: center;">{{ count.value }}</td>
+                        <td style="text-align: center;"><a href="{{ results['resource']['value'] }}" target="_blank">{{
+                                results['resource']['value']
+                                }}</a></td>
+                        <td style="text-align: center;">{{ results['query']['value'] }}</td>
+                        <td style="text-align: center;">{{ results['query']['xml:lang'] }}</td>
+                        <td style="text-align: center;">
+
+                            <a class="btn btn-danger" href="/detailsSearch/{{ count.value }}/{{ results }}">Visualizar
+                                Elemento</a>
+
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+        </table>
+    </div>
+</form>
+
+{% endblock %}
