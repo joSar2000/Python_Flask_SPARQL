@@ -1,8 +1,30 @@
-
-
 {% block content %}
-    {{ id }}
-    {{ queryRes}} <br>
-    {{ queryRes['resource']['value'] }} <br>
-    {{ queryRes['query']['value'] }}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <h2 style="text-align: center; margin: 2%;">Detalles</h2>
+    </div>
+    <div style="padding: 5%; margin: 2%;" class="alert alert-success" role="alert">
+        <h4 class="alert-heading"><b>Etiqueta del recurso: </b>{{ queryRes['query']['value'] }}</h4>
+        <p>{{ queryRes['abstract']['value'] }}</p>
+        <hr>
+        <p class="mb-0"><b>Puedes acceder al recurso seleccionado mediante el siguiente enlace:</b><br><a target="_blank" href="{{ queryRes['resource']['value'] }}">{{ queryRes['resource']['value'] }}</a></p>
+    </div>
+    <div style="padding: 2%;">
+        <img src="{{ queryRes['image']['value'] }}" class="img-fluid" alt="...">
+    </div>
+</body>
+
+</html>
 {% endblock %}

@@ -32,15 +32,18 @@ def searchQuery():
     if request.method == 'POST':
         if 'buscar' in request.form:
             item = request.form['querySparq']
-            #filtersQuery = request.form['filterResource']
+            filtersQuery = request.form['filterSparq']
             #filterBase = request.form['filterBase']
+            splitItem = item.split(':')
+            #print(filterBase)
             if item != "":
                 sparql = SPARQLWrapper(dbpedia_sparq)
                 sparql.setQuery(
-                    "SELECT ?resource ?query\n WHERE {\n"
-                    "?resource dbo:country dbr:"+item+".\n"
-                    "?resource rdfs:label ?query FILTER REGEX (?query, '" +
-                    item+"', 'i').\n"
+                    "SELECT ?resource ?query ?abstract ?image\n WHERE {\n"
+                    "?resource " + filtersQuery +" "+item+".\n"
+                    "?resource rdfs:label ?query.\n"
+                    "?resource dbo:abstract ?abstract.\n"
+                    "OPTIONAL {?resource dbo:thumbnail ?image}.\n"
                     "FILTER (LANG(?query) = '"+dbpedia_idioma+"')"
                     "} limit 100"
                 )
@@ -49,16 +52,11 @@ def searchQuery():
                 if qres:
                     return render_template('responses.html', resultsQuery=qres)
 
-
-@app.route('/searchQuery', methods=['POST', 'GET'])
-def details (query):
-    return query
-
 @app.route('/detailsSearch/<int:id>/<path:query>')
 def detailsSearch(query, id=None):
     #res = json.dumps(query)
     #newQuery = json.loads(res)
-    Dict = eval(query)
+    Dict = eval(query+"'}}")
     return render_template('details.html', id = id, queryRes = Dict)
 
 
