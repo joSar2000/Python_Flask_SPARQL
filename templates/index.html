@@ -15,11 +15,12 @@
         <div class="container">
             <div class="row" style="background-color: #9CADEA; margin: 10px;">
                 <div style="font-family: 'Jost'; padding: 30px; font-size: 30px;" class="col-10">
-                    <h3 style="font-family: 'Jost'; padding-bottom: 3%; font-size: 30px;"><b>Ingrese una palabra clave de su búsqueda</b></h3>
+                    <h3 style="font-family: 'Jost'; padding-bottom: 3%; font-size: 30px;"><b>Ingrese una palabra clave de su búsqueda (Recurso)</b></h3>
                     <input style="width: 100%;" type="text" name="querySparq" required>
                     <h3 style="font-family: 'Jost';padding-top: 3%; font-size: 30px;"><b>Ingrese una propiedad</b></h3>
                     <input style="margin-top: 2%; width: 100%;" type="text" name="filterSparq" required>
-
+                    <h3 style="font-family: 'Jost';padding-top: 3%; font-size: 30px;"><b>Filtrar por: (opcional)</b></h3>
+                    <input style="margin-top: 2%; width: 100%;" type="text" name="filter">
                 </div>
                 <div style="font-family: 'Jost'; padding: 30px; margin-top: 10%; font-size: 50%;" class="col-2">
                     <input class="btn btn-danger" type="submit" value="BUSCAR" name="buscar" style="font-size: 400%;">
@@ -39,14 +40,6 @@
                     <div style="background-color: #9CADEA; padding: 10px; margin: 10px;">
                         <label style="width: 100%; background-color: #FFFFFF; font-size: 150%; font-family: 'Jost';">
                             <input style="margin: 10px;" type="radio" name="filterBase" value="DBPedia" required/> DBPedia
-                        </label>
-                        <hr size="4px">
-                        <label style="width: 100%;background-color: #FFFFFF;font-size: 150%;font-family: 'Jost';">
-                            <input style="margin: 10px;" type="radio" name="filterBase" value="Wikidata" required/> Wikidata
-                        </label>
-                        <hr size="4px">
-                        <label style="width: 100%;background-color: #FFFFFF;font-size: 150%;font-family: 'Jost';">
-                            <input style="margin: 10px;" type="radio" name="filterBase" value="FreeBase" required/> FreeBase
                         </label>
                     </div>
                 </div>
