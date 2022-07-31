@@ -97,8 +97,6 @@ def searchQuery():
 
 @app.route('/detailsSearch/<int:id>/<path:query>')
 def detailsSearch(query, id=None):
-    #res = json.dumps(query)
-    #newQuery = json.loads(res)
     Dict = eval(query+"'}}")
     return render_template('details.html', id=id, queryRes=Dict)
 
