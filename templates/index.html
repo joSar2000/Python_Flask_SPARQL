@@ -15,12 +15,17 @@
         <div class="container">
             <div class="row" style="background-color: #9CADEA; margin: 10px;">
                 <div style="font-family: 'Jost'; padding: 30px; font-size: 30px;" class="col-10">
-                    <h3 style="font-family: 'Jost'; padding-bottom: 3%; font-size: 30px;"><b>Ingrese una palabra clave de su búsqueda (Recurso)</b></h3>
+                    <h3 style="font-family: 'Jost'; padding-bottom: 3%; font-size: 30px;"><b>Ingrese una palabra clave
+                            de su búsqueda (Recurso)</b></h3>
                     <input style="width: 100%;" type="text" name="querySparq" required>
                     <h3 style="font-family: 'Jost';padding-top: 3%; font-size: 30px;"><b>Ingrese una propiedad</b></h3>
                     <input style="margin-top: 2%; width: 100%;" type="text" name="filterSparq" required>
-                    <h3 style="font-family: 'Jost';padding-top: 3%; font-size: 30px;"><b>Filtrar por: (opcional)</b></h3>
+                    <h3 style="font-family: 'Jost';padding-top: 3%; font-size: 30px;"><b>Filtrar por: (opcional)</b>
+                    </h3>
                     <input style="margin-top: 2%; width: 100%;" type="text" name="filter">
+                    <h3 style="font-family: 'Jost';padding-top: 3%; font-size: 30px;"><b>Número de búsquedas</b>
+                    </h3>
+                    <input type="number" name="limit" id="limit" min="1" max="200" step="1" value="1" required>
                 </div>
                 <div style="font-family: 'Jost'; padding: 30px; margin-top: 10%; font-size: 50%;" class="col-2">
                     <input class="btn btn-danger" type="submit" value="BUSCAR" name="buscar" style="font-size: 400%;">
@@ -29,8 +34,9 @@
             <div class="row" style="margin: 10px;">
                 <!-- filtros izquierda -->
                 <!-- parte central -->
-                <div style="width: 82%; margin-right: 17px; background-color: #9CADEA;" class="col-10">
-                    <h1>Aqui vamos a poner info</h1>
+                <div style="text-align: center; width: 82%; margin-right: 17px; background-color: #9CADEA;"
+                    class="col-10">
+                    <h1>Búsquedas mediante SparQL</h1>
                 </div>
                 <!-- filtros derecha -->
                 <div class="col-2" style="background-color: #D9D9D9;">
@@ -39,7 +45,8 @@
                     <br>
                     <div style="background-color: #9CADEA; padding: 10px; margin: 10px;">
                         <label style="width: 100%; background-color: #FFFFFF; font-size: 150%; font-family: 'Jost';">
-                            <input style="margin: 10px;" type="radio" name="filterBase" value="DBPedia" required/> DBPedia
+                            <input style="margin: 10px;" type="radio" name="filterBase" value="DBPedia" required />
+                            DBPedia
                         </label>
                     </div>
                 </div>

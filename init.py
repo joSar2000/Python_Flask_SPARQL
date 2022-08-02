@@ -1,13 +1,19 @@
 
 
+import base64
+import io
 from typing import Dict
-from flask import Flask, render_template, request
-from SPARQLWrapper import SPARQLWrapper, JSON
+from flask import Flask, render_template, request, send_file
+from SPARQLWrapper import XML, SPARQLWrapper, JSON, N3
 from sqlalchemy import null
-import json
 import ast
 import textrazor
 import re
+import networkx as nx
+from rdflib.extras.external_graph_libs import rdflib_to_networkx_graph
+from rdflib import Graph
+import matplotlib.pyplot as plt
+import urllib3
 
 app = Flask(__name__)
 
@@ -49,6 +55,7 @@ def searchQuery():
             item = request.form['querySparq']
             filtersQuery = request.form['filterSparq']
             filters = request.form['filter']
+            limitResults = request.form['limit']
             #filterBase = request.form['filterBase']
             splitItem = item.split(':')
             # print(filterBase)
@@ -65,12 +72,23 @@ def searchQuery():
                     "OPTIONAL {?resource dbo:thumbnail ?image}.\n"
                     "FILTER (LANG(?query) = '"+dbpedia_idioma+"').\n"
                     "FILTER (LANG(?abstract) = '"+dbpedia_idioma+"').\n"
-                    "} LIMIT 200"
+                    "} LIMIT " + limitResults
                 )
                 sparql.setReturnFormat(JSON)
                 qres = sparql.query().convert()
+                sparql.setReturnFormat(N3)
+                qresN3 = sparql.query().convert()
+                g = Graph()
+                g.parse(data=qresN3, format="n3", )
+                dg = rdflib_to_networkx_graph(g, False, edge_attrs=lambda s,p,o:{})
+                #Draw regulated concept map
+                nx.draw(dg)              
+                img = io.BytesIO()
+                plt.savefig(img, format = "png")
+                img.seek(0)
+                plot_data = base64.b64encode(img.getbuffer()).decode("ascii")
                 if qres:
-                    return render_template('responses.html', resultsQuery=qres)
+                    return render_template('responses.html', resultsQuery=qres, plot_url = plot_data)
             else:
                 if item != "" and filters != "":
                     print(filters)
@@ -87,7 +105,7 @@ def searchQuery():
                     "OPTIONAL {?resource dbo:thumbnail ?image}.\n"
                     "FILTER (LANG(?query) = '"+dbpedia_idioma+"').\n"
                     "FILTER (LANG(?abstract) = '"+dbpedia_idioma+"').\n"
-                    "} LIMIT 200"
+                    "} LIMIT 100"
                 )
                 sparql.setReturnFormat(JSON)
                 qres = sparql.query().convert()
