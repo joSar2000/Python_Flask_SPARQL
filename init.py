@@ -114,15 +114,16 @@ def searchQuery():
                 sparql.setReturnFormat(N3)
                 qresN3 = sparql.query().convert()
                 g = Graph()
-                g.parse(data=qresN3)
+                g.parse(data=qresN3, format="n3")
                 dg = rdflib_to_networkx_graph(
                     g, True, edge_attrs=lambda s, p, o: {})
                 # Draw regulated concept map
-                nx.draw(dg, node_color='lightgray', node_size=1000, font_size=8, width=0.75,
-                        edgecolors='gray')
+                nx.draw(dg, node_color='lightgray', node_size=100, font_size=7,
+                        edgecolors='gray', arrows=True, arrowstyle="->",)
                 img = io.BytesIO()
                 plt.savefig(img, format="png")
                 img.seek(0)
+                plt.close()
                 plot_data = base64.b64encode(img.getbuffer()).decode("ascii")
                 if qres:
                     return render_template('responses.html', resultsQuery=qres, plot_url=plot_data)
