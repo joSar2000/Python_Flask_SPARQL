@@ -3,17 +3,15 @@
 import base64
 import io
 from typing import Dict
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request
 from SPARQLWrapper import XML, SPARQLWrapper, JSON, N3
+import pandas as pd
 from sqlalchemy import null
-import ast
 import textrazor
-import re
 import networkx as nx
 from rdflib.extras.external_graph_libs import rdflib_to_networkx_graph
 from rdflib import Graph
 import matplotlib.pyplot as plt
-import urllib3
 
 app = Flask(__name__)
 
@@ -76,19 +74,23 @@ def searchQuery():
                 )
                 sparql.setReturnFormat(JSON)
                 qres = sparql.query().convert()
+
                 sparql.setReturnFormat(N3)
                 qresN3 = sparql.query().convert()
+                print(type(qresN3))
                 g = Graph()
-                g.parse(data=qresN3, format="n3", )
-                dg = rdflib_to_networkx_graph(g, False, edge_attrs=lambda s,p,o:{})
-                #Draw regulated concept map
-                nx.draw(dg)              
+                g.parse(data=qresN3)
+                dg = rdflib_to_networkx_graph(
+                    g, True, edge_attrs=lambda s, p, o: {})
+                # Draw regulated concept map
+                nx.draw(dg, node_color='lightgray', node_size=1000, font_size=8, width=0.75,
+                        edgecolors='gray')
                 img = io.BytesIO()
-                plt.savefig(img, format = "png")
+                plt.savefig(img, format="png")
                 img.seek(0)
                 plot_data = base64.b64encode(img.getbuffer()).decode("ascii")
                 if qres:
-                    return render_template('responses.html', resultsQuery=qres, plot_url = plot_data)
+                    return render_template('responses.html', resultsQuery=qres, plot_url=plot_data)
             else:
                 if item != "" and filters != "":
                     print(filters)
@@ -109,8 +111,21 @@ def searchQuery():
                 )
                 sparql.setReturnFormat(JSON)
                 qres = sparql.query().convert()
+                sparql.setReturnFormat(N3)
+                qresN3 = sparql.query().convert()
+                g = Graph()
+                g.parse(data=qresN3)
+                dg = rdflib_to_networkx_graph(
+                    g, True, edge_attrs=lambda s, p, o: {})
+                # Draw regulated concept map
+                nx.draw(dg, node_color='lightgray', node_size=1000, font_size=8, width=0.75,
+                        edgecolors='gray')
+                img = io.BytesIO()
+                plt.savefig(img, format="png")
+                img.seek(0)
+                plot_data = base64.b64encode(img.getbuffer()).decode("ascii")
                 if qres:
-                    return render_template('responses.html', resultsQuery=qres)
+                    return render_template('responses.html', resultsQuery=qres, plot_url=plot_data)
 
 
 @app.route('/detailsSearch/<int:id>/<path:query>')
@@ -127,6 +142,7 @@ def resultsTextRazor():
             if itemText != '':
                 client = textrazor.TextRazor(extractors=["entities", "topics"])
                 response = client.analyze(itemText)
-                return render_template('resultsTextRazor.html', response = response)
+                return render_template('resultsTextRazor.html', response=response)
+
 
 app.run(host='localhost', port=8080, debug=True)
