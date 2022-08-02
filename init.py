@@ -88,6 +88,7 @@ def searchQuery():
                 img = io.BytesIO()
                 plt.savefig(img, format="png")
                 img.seek(0)
+                plt.close()
                 plot_data = base64.b64encode(img.getbuffer()).decode("ascii")
                 if qres:
                     return render_template('responses.html', resultsQuery=qres, plot_url=plot_data)
