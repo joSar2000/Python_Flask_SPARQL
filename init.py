@@ -108,7 +108,7 @@ def searchQuery():
                     "OPTIONAL {?resource dbo:thumbnail ?image}.\n"
                     "FILTER (LANG(?query) = '"+dbpedia_idioma+"').\n"
                     "FILTER (LANG(?abstract) = '"+dbpedia_idioma+"').\n"
-                    "} LIMIT 100"
+                    "} LIMIT " + limitResults
                 )
                 sparql.setReturnFormat(JSON)
                 qres = sparql.query().convert()
